@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import mongoose from 'mongoose' 
 import CommentModel, {Comment}  from '../models/comments.model';
+import PostModel, {Post}  from '../models/post.model';
 
 
 const createComment = async (req: Request, res: Response) => {
@@ -17,8 +18,12 @@ const createComment = async (req: Request, res: Response) => {
   });
 
   const commentCreated : Comment = await commentInput.save();
-
-  return res.status(201).json(commentCreated);
+  let postData = await PostModel.findById(post);
+  if(postData) {
+    postData.comments.push(commentCreated._id)
+    postData = await postData.save()
+  }
+  return res.status(200).json(commentCreated)
 };
 
 

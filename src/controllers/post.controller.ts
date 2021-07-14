@@ -46,11 +46,12 @@ const getPost = async (req: Request, res: Response) => {
   let posts: any = []
   if(sort) {
     posts = ascending === "true" ? 
-      await PostModel.find().sort({ createdAt: 'asc'}).exec() :
-      await PostModel.find().sort({ createdAt: 'desc'}).exec();
+      await PostModel.find().sort({ createdAt: 'asc'}).populate('Comment').exec() :
+      await PostModel.find().sort({ createdAt: 'desc'}).populate('Comment').exec();
       return res.status(200).json(posts);
   }
-  posts = await PostModel.find();
+  posts = await PostModel.find().populate('Comment');
+  console.log(posts)
   return res.status(200).json(posts);
 };
 
