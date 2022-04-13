@@ -1,11 +1,11 @@
 import mongoose, { Schema, model } from 'mongoose';
 
-export interface Comment extends mongoose.Document {
+export interface Art extends mongoose.Document {
   commentContent: string,
   activeStatus: boolean;
 };
 
-const CommentSchema = new Schema(
+const ArtSchema = new Schema(
   {
     commentContent: {
       type: Schema.Types.String,
@@ -18,14 +18,19 @@ const CommentSchema = new Schema(
     post: {
         type: Schema.Types.ObjectId,
         required: true,
-        ref: 'Post'
+        ref: 'Collection'
+    },
+    creator: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: 'User'
     }
   },
   {
-    collection: 'Comment',
+    collection: 'Art',
     timestamps: true,
   },
 );
 
 
-export default model<Comment>('Comment', CommentSchema);
+export default model<Art>('Art', ArtSchema);
