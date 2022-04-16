@@ -1,9 +1,9 @@
 import mongoose, { Schema, model } from 'mongoose';
 
-export interface Art extends mongoose.Document {
-  commentContent: string,
+export type Art = {
+  commentContent: string;
   activeStatus: boolean;
-};
+} & mongoose.Document;
 
 const ArtSchema = new Schema(
   {
@@ -16,9 +16,9 @@ const ArtSchema = new Schema(
       required: true,
     },
     collection: {
-        type: Schema.Types.ObjectId,
-        required: true,
-        ref: 'Collection'
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: 'Collection',
     },
     imageString: {
       type: Schema.Types.String,
@@ -31,14 +31,13 @@ const ArtSchema = new Schema(
     creator: {
       type: Schema.Types.ObjectId,
       required: true,
-      ref: 'User'
-    }
+      ref: 'User',
+    },
   },
   {
     collection: 'Art',
     timestamps: true,
   },
 );
-
 
 export default model<Art>('Art', ArtSchema);

@@ -1,12 +1,12 @@
 import mongoose, { Schema, model } from 'mongoose';
 
-export interface Collection extends mongoose.Document {
+export type Collection = {
   arts: [string];
   creator: string;
   title: string;
-  collectionContent: string,
+  collectionContent: string;
   activeStatus: boolean;
-};
+} & mongoose.Document;
 
 const CollectionSchema = new Schema(
   {
@@ -26,14 +26,16 @@ const CollectionSchema = new Schema(
       type: Schema.Types.String,
       required: false,
     },
-    arts: [{
-      type: Schema.Types.ObjectId,
-      ref: 'Art',
-    }],
+    arts: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Art',
+      },
+    ],
     creator: {
       type: Schema.Types.ObjectId,
       ref: 'User',
-    }
+    },
   },
   {
     collection: 'Collection',
