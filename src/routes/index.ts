@@ -1,5 +1,6 @@
 import express from 'express';
 import userRouter from './user.route';
+import collectionRouter from './collection.route';
 
 const router = express.Router();
 
@@ -28,7 +29,7 @@ router.get('/health', (req, res) => {
   res.send({ status: 'OK' });
 }); // api status
 
-// router.use('/collection', colectionRouter); // collection routes.
+router.use('/collection', collectionRouter); // collection routes.
 // router.use('/arts', artRouter); // art routes.
 router.use('/user', userRouter); // user routes.
 

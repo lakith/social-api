@@ -3,18 +3,19 @@ import mongoose, { Schema, model } from 'mongoose';
 export type Collection = {
   arts: [string];
   creator: string;
-  title: string;
-  collectionContent: string;
+  name: string;
+  about: string;
   activeStatus: boolean;
+  imageString: string;
 } & mongoose.Document;
 
 const CollectionSchema = new Schema(
   {
-    title: {
+    name: {
       type: Schema.Types.String,
       required: true,
     },
-    collectionContent: {
+    about: {
       type: Schema.Types.String,
       required: true,
     },
