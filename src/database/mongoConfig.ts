@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, {Error} from 'mongoose';
 import { getMongoUrl } from '../config';
 
 export default async function connectDB(): Promise<any> {
