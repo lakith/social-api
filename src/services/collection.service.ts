@@ -44,3 +44,16 @@ export const getCollectionsByUser = async (userId) => {
     console.log(error);
   }
 };
+
+export const removeCollection = async (collectionId) => {
+  try {
+    const collection = await CollectionModel.findByIdAndDelete({ _id: collectionId });
+    const data = {
+      collection,
+    };
+
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
