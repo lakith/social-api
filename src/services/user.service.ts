@@ -1,10 +1,11 @@
-const User = require('../models/user.modal')
+import userModel from '../models/user.model'
+import UserModel, {User} from '../models/user.model'
 const {GeneralError, BadRequest} = require('../utils/errors')
 const {validPassword, genPassword, issueJWT} = require('../utils/utils')
 
-const findUserById = async(userId) => {
+export const findUserById = async(userId: string) => {
     try {
-        const user = await User.findById(userId)
+        const user = await UserModel.findById(userId)
         return user
     } catch (error) {
         console.log('error', error)
@@ -12,20 +13,22 @@ const findUserById = async(userId) => {
     }
 }
 
-const findDuplicateUsers = async (email) => {
+export const findDuplicateUsers = async (email: string) => {
     try {
-        let userStatus = await User.findDuplicateEmails(email)
-        console.log('userStatus' ,userStatus)
-        return userStatus
+        let user = await UserModel.findOne({ email }).lean();
+        if (user) {
+            return true;
+        } else {
+            return false;
+        }
     } catch (error) {
-        console.log('error', error)
-        throw new GeneralError('Something Went Wrong..')
+        throw new GeneralError(error);
     }
 };
 
-const login = async ({email, password}) => {
+export const loginUser = async ({email, password}) => {
     try{
-        let user = await User.findOne({email});
+        let user = await UserModel.findOne({email});
         if(user) {
             let passwordIsValid = await validPassword(password, user)
             if(passwordIsValid) {
@@ -55,7 +58,7 @@ const login = async ({email, password}) => {
  * @param {*} user - User data from the rest endpoint
  * @returns - returns registerd user data with tokens
  */
-const signUp = async (user) => {
+ export const signUpUser = async (user) => {
     try {
         /****
          * This uses brcrpt to hash user passwords
@@ -66,8 +69,8 @@ const signUp = async (user) => {
         /****
          * This uses brcrpt to hash user passwords
          */
-        const newUser = new User({...user})
-        user = await newUser.save({user})
+        const newUser : User = new UserModel({...user})
+        user = await newUser.save()
 
         /**
          * Genarate a signed jwt and save it in jwt token list for new user
@@ -84,11 +87,4 @@ const signUp = async (user) => {
     } catch (error) {
         console.log(error)
     }
-}
-
-module.exports = {
-    signUp,
-    login,
-    findDuplicateUsers,
-    findUserById
 }

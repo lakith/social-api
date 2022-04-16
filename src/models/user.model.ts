@@ -8,13 +8,16 @@ enum Role {
     USER = 'USER'
 }
 
+interface Tokens {
+    token: string
+}
 export interface User extends mongoose.Document {
     name: string;
     email: string;
     password: string;
     age: number;
     role: Role;
-    tokens: [string];
+    tokens: Tokens[];
 };
 
 const UserSchema = new Schema<User>({
@@ -83,18 +86,5 @@ UserSchema.virtual("arts", {
     localField: "_id",
     foreignField: "creator",
 })
-
-UserSchema.statics.findDuplicateEmails = async function (email: string) {
-    try {
-        let user = await this.findOne({ email }).lean();
-        if (user) {
-            return true;
-        } else {
-            return false;
-        }
-    } catch (error) {
-        throw new GeneralError(error);
-    }
-};
 
 export default model<User>('User', UserSchema);

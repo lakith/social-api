@@ -1,16 +1,16 @@
-const logger = require("../config/logger/logger");
-const userService = require('../services/user.service')
-const {GeneralError, BadRequest} = require('../utils/errors')
-const Constants = require('../constants/constants')
-const httpStatus = require('http-status')
 import { Request, Response, NextFunction } from 'express';
+import {findDuplicateUsers, loginUser, signUpUser} from '../services/user.service'
+import Constants from '../constants/constants'
+import httpStatus from 'http-status'
+import {GeneralError, BadRequest} from '../utils/errors'
 
-const signUp = async (req: Request, res: Response, next: NextFunction) => {
+
+export const signUp = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        let userStatus = await userService.findDuplicateUsers(req.body.email)
+        let userStatus = await findDuplicateUsers(req.body.email)
         if(!userStatus) {
             let user = req.body
-            let data = await userService.signUp(user)
+            let data = await signUpUser(user)
             let response = {
                 message: Constants.userMessage.SIGNUP_SUCCESS,
                 data,
@@ -24,20 +24,15 @@ const signUp = async (req: Request, res: Response, next: NextFunction) => {
     }
 }
 
-const login = async (req: Request, res: Response, next: NextFunction) => {
+export const login = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        let data = await userService.login(req.body)
+        let data = await loginUser(req.body)
         let response = {
-            message: Constants.userMessage.LOGIN_SUCCESS,
+            message: "Success",
             data,
         }
         res.status(httpStatus.OK).send(response)
     } catch (error) {
         next(error)
     }
-}
-
-module.exports = {
-    signUp,
-    login
 }

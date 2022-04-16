@@ -1,7 +1,5 @@
-  
 import express  from 'express';
-import postRouter from './post.route'
-import commentsRoute from './comments.route'
+import userRouter from './user.route'
 
 let router = express.Router();
 
@@ -9,7 +7,7 @@ let router = express.Router();
 /* GET APP Details. */
 router.get('/', function(req, res, next) {
   let response = {
-    app_name:'Social Medial API',
+    app_name:'NFT MARKETPLACE API',
     developers : [{
       name: 'Lakith Muthugala',
       git_repo: 'https://github.com/lakith',
@@ -24,7 +22,8 @@ router.get('/', function(req, res, next) {
 router.get('/status', (req, res) => { res.send({status: 'OK'}) }) // api status
 router.get('/health', (req, res) => { res.send({status: 'OK'}) }) // api status
 
-router.use('/post', postRouter); // post routes.
-router.use('/comment', commentsRoute); // comments routes.
+// router.use('/collection', colectionRouter); // collection routes.
+// router.use('/arts', artRouter); // art routes.
+router.use('/user', userRouter); // user routes.
 
 export default router;

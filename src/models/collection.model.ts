@@ -22,6 +22,10 @@ const CollectionSchema = new Schema(
       type: Schema.Types.Boolean,
       required: true,
     },
+    imageString: {
+      type: Schema.Types.String,
+      required: false,
+    },
     arts: [{
       type: Schema.Types.ObjectId,
       ref: 'Art',

@@ -7,7 +7,7 @@ export interface Art extends mongoose.Document {
 
 const ArtSchema = new Schema(
   {
-    commentContent: {
+    artTitle: {
       type: Schema.Types.String,
       required: true,
     },
@@ -15,10 +15,18 @@ const ArtSchema = new Schema(
       type: Schema.Types.Boolean,
       required: true,
     },
-    post: {
+    collection: {
         type: Schema.Types.ObjectId,
         required: true,
         ref: 'Collection'
+    },
+    imageString: {
+      type: Schema.Types.String,
+      required: true,
+    },
+    bid: {
+      type: Schema.Types.Number,
+      required: false,
     },
     creator: {
       type: Schema.Types.ObjectId,
