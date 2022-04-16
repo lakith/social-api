@@ -18,3 +18,29 @@ export const createACollection = async (collection) => {
     console.log(error);
   }
 };
+
+export const getAllCollections = async () => {
+  try {
+    const collections = await CollectionModel.find();
+    const data = {
+      collections,
+    };
+
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getCollectionsByUser = async (userId) => {
+  try {
+    const collections = await CollectionModel.find({ creator: userId });
+    const data = {
+      collections,
+    };
+
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
