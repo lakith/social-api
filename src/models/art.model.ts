@@ -1,24 +1,22 @@
 import mongoose, { Schema, model } from 'mongoose';
 
 export type Art = {
-  commentContent: string;
+  name: string;
   activeStatus: boolean;
+  imageString: string;
+  bid: number;
+  collection: string;
 } & mongoose.Document;
 
 const ArtSchema = new Schema(
   {
-    artTitle: {
+    name: {
       type: Schema.Types.String,
       required: true,
     },
     activeStatus: {
       type: Schema.Types.Boolean,
       required: true,
-    },
-    collection: {
-      type: Schema.Types.ObjectId,
-      required: true,
-      ref: 'Collection',
     },
     imageString: {
       type: Schema.Types.String,
@@ -28,10 +26,10 @@ const ArtSchema = new Schema(
       type: Schema.Types.Number,
       required: false,
     },
-    creator: {
+    artCollection: {
       type: Schema.Types.ObjectId,
       required: true,
-      ref: 'User',
+      ref: 'Collection',
     },
   },
   {
